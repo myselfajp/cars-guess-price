@@ -6,6 +6,7 @@ import mysql.connector
 # take list of car's name from "truecar" site 
 
 cars_page = BeautifulSoup(requests.get('https://www.truecar.com/used-cars-for-sale').text,'html.parser').find('select',attrs={"aria-label":"Make"})
+
 cars = cars_page.find_all("option")
 
 
@@ -19,7 +20,7 @@ while  True:
     selected_car = input('\n input a car name from list of top :(lower and UPPER doesn\'t matter) ').strip().replace(' ','-').lower()
 
     for i in cars:
-        if selected_car in i.text.lower():
+        if selected_car == i.text.lower():
             selected_car=i.text.lower()
             break
 
@@ -44,7 +45,8 @@ while page_counter<=number_of_pages:
     try:
         
         main_page=BeautifulSoup(requests.get('https://www.truecar.com/used-cars-for-sale/listings/%s/location-birmingham-al/?page=%i&searchRadius=5000' %(selected_car,page_counter)).text,'html.parser')
-        list_of_cars=main_page.find_all('li',attrs={"data-qa":"Listings"})
+        list_of_cars=main_page.find_all('li',attrs={"class":"margin-top-3 d-flex flex-grow col-md-6 col-xl-4"})
+
         for j in list_of_cars:
 
             if ("No accidents" in j.text) and (not "No Price" in j.text):
@@ -59,14 +61,12 @@ while page_counter<=number_of_pages:
                     lst_cars.append([name,model,year,miles,price])
 
 
-
         print("page %i added" %(page_counter))
         page_counter+=1
         
     except:
         print('connection problem. try again :(')
         exit()
-
 
 
 cnc = mysql.connector.connect(user='root' , password='' ,host='127.0.0.1' ,database='test')

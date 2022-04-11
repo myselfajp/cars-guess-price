@@ -1,4 +1,10 @@
-step 1 : open add-todatabase and chose yor car model
-#it will be added all of model from www.truecar.com to your database
+create database test
 
-step 2 : open estimation and chose one of the cars from data base for guess yor car price
+crate table novincharm
+(
+model varchar(50) COLLATE utf8_persian_ci ,
+old_price varchar(50) COLLATE utf8_persian_ci ,
+new_price varchar(50) COLLATE utf8_persian_ci ,
+discount varchar(50) COLLATE utf8_persian_ci 
+)
+;
